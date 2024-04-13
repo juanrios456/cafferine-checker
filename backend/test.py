@@ -1,52 +1,52 @@
 
-    
+
 def create_array():
     #Creates an array of different drinks that contains the drinks' name, caffeine content (in mg) and size (in oz)
 
     drinks = [ {"Name": "Mtn Dew Energy", 
-    "Caffeine Content (mg/oz)": "11.25"},
+    "Caffeine_Content": "11.25"},
 
     {"Name":"Red Bull",
-     "Caffeine Content (mg/oz)": "9.25"},
+     "Caffeine_Content": "9.25"},
 
     {"Name":"Monster", 
-    "Caffeine Content (mg/oz)": "5.06"},
+    "Caffeine_Content": "5.06"},
 
     {"Name": "V8 Energy", 
-    "Caffeine Content (mg/oz)": "10.00"},
+    "Caffeine_Content": "10.00"},
 
     {"Name": "Celsius",
-     "Caffeine Content (mg/oz)": "16.67"},
+     "Caffeine_Content": "16.67"},
 
     {"Name": "Charged Lemonade",
-     "Caffeine Content (mg/oz)": "13.00"},
+     "Caffeine_Content": "13.00"},
 
     {"Name": "Green Tea", 
-    "Caffeine Content (mg/oz)": "5.00"},
+    "Caffeine_Content": "5.00"},
 
     {"Name": "Bang",
-     "Caffeine Content (mg/oz)": "18.75"},
+     "Caffeine_Content": "18.75"},
 
     {"Name": "Sugar Free Red Bull",
-     "Caffeine Content (mg/oz)": "9.52"},
+     "Caffeine_Content": "9.52"},
 
     {"Name": "Dr. Pepper", 
-    "Caffeine Content (mg/oz)": "3.55"},
+    "Caffeine_Content": "3.55"},
 
     {"Name": "Ghost Energy", 
-    "Caffeine Content (mg/oz)": "12.50"},
+    "Caffeine_Content": "12.50"},
 
     {"Name": "Water", 
-    "Caffeine Content (mg/oz)": "0.00"},
+    "Caffeine_Content": "0.00"},
 
     {"Name": "Bubbl'r Twisted Elixir",
-     "Caffeine Content (mg/oz)": "5.75"},
+     "Caffeine_Content": "5.75"},
 
     {"Name": "Gatorade",
-     "Caffeine Content (mg/oz)": "0.00"},
+     "Caffeine_Content": "0.00"},
 
     {"Name": "Coffee",
-     "Caffeine Content (mg/oz)": "11.88" }]
+     "Caffeine_Content": "11.88" }]
     #Returns the array created
     return drinks
 
@@ -60,7 +60,7 @@ def calculate_caffeine(drink_array, drink_name, drink_size, drink_quantity):
                 #if key=="Name":
                     #print(str(key)+": "+str(value))
                 #Prints caffeine content by multiplying the milligrams/oz by the drink size to find the milligrams
-                if key=="Caffeine Content (mg/oz)":
+                if key=="Caffeine_Content":
                     #Throws and error if the user inputs a negative volume
                     if drink_size<0:
                         raise("Drink Size Cannot be Negative")
