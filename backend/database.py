@@ -13,7 +13,6 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.caffeine
 collection = db.drinks 
 
-# def test_connection():
 
 # Send a ping to confirm a successful connection
 try:
@@ -22,58 +21,39 @@ try:
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
     print(e)
-    
+
+
+# grabs all the different drink names
 def get_all_names():
     names = []
-    cursor = collection.find({}, {"_id": 0, "name": 1})  # Exclude _id field, include only name field
+    cursor = collection.find({}, {"_id": 0, "Name": 1})  # Exclude _id field, include only name field
     for document in cursor:
-        names.append(document["name"])
+        names.append(document["Name"])
     return names
 
-def test_please():
-    document = collection.find_one({"Name":"Monster"})
+def get_drink_by_name(drink_name):
+    document = collection.find_one({"Name":drink_name})
     if document:
-        print("One document from the collection:")
-        print(document)
         return document
     else:
         print("No documents found in the collection.")
 
-pleasseee = test_please()
-size = 17
-print(f'HEREEEREREERE: {pleasseee}')
 
-def calculate_caffeine(drink_result,drink_size, drink_quantity):
-        for key, value in drink_result.items():
-            #Prints name of drinks
-            #if key=="Name":
-                #print(str(key)+": "+str(value))
-            #Prints caffeine content by multiplying the milligrams/oz by the drink size to find the milligrams
-            if key=="Caffeine_Content":
-                #Throws and error if the user inputs a negative volume
-                if drink_size<0:
-                    raise("Drink Size Cannot be Negative")
-                #print("Caffeine Content (mg): "+str(float(value)*drink_size)+" per drink")
-                #Prints the total amount of caffeine for all drinks consumed
-                #if drink_quantity!=1:
-                        #print("Total Caffeine (mg): "+str(float(value)*drink_size*drink_quantity))
-                total_caffeine =float(value)*drink_size*drink_quantity
-                return total_caffeine
+
+def calculate_caffeine(drink_name,drink_size, drink_quantity):
+        drink = get_drink_by_name(drink_name)
+        if not drink:
+            return 0
+        caffeine_content =drink.get("Caffeine_Content", 0)
+        total_caffeine =float(caffeine_content)*drink_size*drink_quantity
+        return total_caffeine
             
 
 def main():
 
-    total_caffeine=calculate_caffeine(pleasseee, 17, 3)
+    total_caffeine=calculate_caffeine("Monster", 17, 3)
     return total_caffeine
-    #Passes input to the print function to print the desired results
-    '''
-    drink__name_input=input()
-    drink_size_input=input()
-    drink_quantity=input()
-    print_drink(drinks, drink_name_input, drink_size_input, drink_quantity)
-    '''
 
-    
 
 #ensures name is equal to main and calls main
 if __name__=='__main__':
