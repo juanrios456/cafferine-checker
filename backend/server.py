@@ -1,52 +1,29 @@
 from flask import Flask, jsonify, render_template, url_for,request,redirect
 from flask_cors import CORS
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-from dotenv import load_dotenv, find_dotenv
-import os
+from database import test_please,get_all_names
 
-load_dotenv()
-uri = os.getenv("CONNECTION_STRING")
-client = MongoClient(uri, server_api=ServerApi('1'))
 
-# Create a new client and connect to the server
-db = client.caffeine
-collection = db.drinks 
 
-# def test_connection():
-
-# Send a ping to confirm a successful connection
-try:
-    client.admin.command('ping')
-    
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
-
-def test_please():
-    document = collection.find_one({"Name":"Monster"})
-    if document:
-        print("One document from the collection:")
-        print(document)
-        return document
-    else:
-        print("No documents found in the collection.")
-
-pleasseee = test_please()
-size = 17
-
-print(f'HEREEEREREERE: {pleasseee}')
 #app instance
 app = Flask(__name__)
 
 CORS(app)
-@app.route("/api", methods=['GET','POST'])
+@app.route("/api/names", methods=['GET'])
 
-def return_home():
-    return jsonify({
-        'message':"hello everyonnneeee"
-    })
+def get_names():
+    names = get_all_names()  # Retrieve all names from the database
+    return jsonify(names), 200  # Return the names as JSON
 
 
+@app.route("/api/document", methods=['GET'])
+def get_document():
+    document =test_please()
+    if document:
+        return jsonify(document), 200
+    else:
+        return jsonify({"error": "Document not found"}), 404
+    
+
+# Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True, port=8080)

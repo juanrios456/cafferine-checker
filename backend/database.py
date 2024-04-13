@@ -22,6 +22,13 @@ try:
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
     print(e)
+    
+def get_all_names():
+    names = []
+    cursor = collection.find({}, {"_id": 0, "name": 1})  # Exclude _id field, include only name field
+    for document in cursor:
+        names.append(document["name"])
+    return names
 
 def test_please():
     document = collection.find_one({"Name":"Monster"})
