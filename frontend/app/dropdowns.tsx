@@ -1,21 +1,43 @@
 'use client'
 import { Button, Input, Link, Select, SelectItem,Table, TableHeader,TableColumn,TableBody,TableRow,TableCell } from "@nextui-org/react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const jsonStuff = [{"name": "Mtn Dew Energy", "Caffeine Content (mg)": "180", "Size (oz)": "16"},
+{"name":"Red Bull", "Caffeine Content (mg)": "111", "Size (oz)": "12"},
+{"name":"Monster", "Caffeine Content (mg)":"86", "Size (oz)": "17"},
+{"name": "V8 Energy", "Caffeine Content (mg)": "80", "Size (oz)": "8"},
+{"name": "Celsius", "Caffeine Content (mg)": "200", "Size (oz)": "12"},
+{"name": "Charged Lemonade", "Caffeine Content (mg)": "390", "Size (oz)": "30"},
+{"name": "Green Tea", "Caffeine Content (mg)": "40", "Size (oz)": "8"},
+{"name": "Bang", "Caffeine Content (mg)": "300", "Size (oz)": "16"},
+{"name": "Sugar Free Red Bull", "Caffeine Content (mg)": "80", "Size (oz)": "8.4"},
+{"name": "Dr. Pepper", "Caffeine Content (mg)": "42.6", "Size (oz)": "12"},
+{"name": "Ghost Energy", "Caffeine Content (mg)": "200", "Size (oz)": "16"},
+{"name": "Water", "Caffeine Content (mg)": "0", "Size (oz)": "8"},
+{"name": "Bubbl'r Twisted Elixir", "Caffeine Content (mg)": "69", "Size (oz)": "12"},
+{"name": "Gatorade", "Caffeine Content (mg)": "0", "Size (oz)": "12"},
+{"name": "Coffee", "Caffeine Content (mg)": "95", "Size (oz)": "8"}]
+
+
+
 
 export type dummyArray = {
   name: string;
 }[];
 
 export type InputedDrinks = {
-  name: string;
+  Name: string;
   caffeine: number;
-  quantity: number;
-}[]
+  qty: number;
+}[];
+
+let error = "";
+let errorClass = "";
 
 const startingFormFields = {
-    name: undefined,
+    Name: undefined,
     size: undefined,
-    quantity: undefined,
+    qty: undefined,
   };
 
 const dummyArray = [
@@ -29,24 +51,95 @@ const dummyArray = [
     caffeine: 5.25,
     fluidOunce: 8,
   }
-]
+];
 
 const drinksListDummyData:InputedDrinks = [
   {
-    name: 'Monster',
+    Name: 'Monster',
     caffeine: 8,
-    quantity: 4,
+    qty: 4,
   },
   {
-    name: 'Bang',
+    Name: 'Bang',
     caffeine: 5.25,
-    quantity: 2,
+    qty: 2,
   }
-]
+];
 
 export function Dropdowns(){
   const [formState, setFormState] = useState(startingFormFields);
-  const { name, size, quantity } = formState;
+  const [caffeineState, setCaffeineState] = useState();
+  const [names, setNames] = useState([]);
+  const { Name, size, qty } = formState;
+
+    useEffect(() => {
+    // Fetch names from Flask server when component mounts
+    fetch('http://localhost:8080/api/names') // Replace with your Flask server address
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+      })
+      .then(data => {
+        setNames(data); // Set names state with data received from server
+      })
+      .catch(error => {
+        console.error('There was a problem fetching the names:', error);
+      });
+  }, []); // Empty dependency array ensures this effect runs only once on mount
+
+  const handleSubmit = async (e:any)=>{
+
+    e.preventDefault()
+
+    if(Name === undefined){
+      error = "Please Fill Out all Of the Fields";
+      errorClass = "text-red-600 font-lg"
+      return
+    }if (size === undefined) {
+      error = "Please Fill Out all Of the Fields";
+      errorClass = "text-red-600 font-lg"
+      return
+    }if (size < 0 ) {
+      error = "Please Input a number greater than 0";
+      errorClass = "text-red-600 font-lg"
+      return
+    }if (qty === undefined) {
+      error = "Please Fill Out all Of the Fields";
+      errorClass = "text-red-600 font-lg"
+      return
+    }if (qty < 1) {
+      error = "Input a number greater than 0";
+      errorClass = "text-red-600 font-lg"
+      return
+    }
+
+    console.log(formState)
+
+    try {
+      const response = await fetch('http://localhost:8080/api/input', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const { total_caffeine } = data;
+      console.log(data)
+
+      setCaffeineState(total_caffeine);
+    } catch (error) {
+      console.error('Error processing user input:', error);
+    }
+  };
 
   const handleChange = ({target}:any)=>{
     setFormState((prev) =>({
@@ -55,46 +148,36 @@ export function Dropdowns(){
     }))
   }
 
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8080/api/home',{
-        method:'POST',
-        body: JSON.stringify(formState),
-      })
-
-      console.log(formState);
-    } catch (error) {
-      
-    }
-  }
-
   const handleReset = ()=>{
     setFormState(startingFormFields);
   }
+
+
 
   return(
   <div>
     <div className="flex flex-row flex-wrap space-x-2">
       <div className="min-w-[300px]">
-      <Select placeholder="Select Drink" name="name" aria-label="hello" value={name} onChange={handleChange}>
-        {dummyArray.map((item,index)=>(
-          <SelectItem key={item.name}>{item.name}</SelectItem>
+      <Select placeholder="Select Drink" name="Name" aria-label="hello" value={Name} onChange={handleChange}>
+        {names.map((item)=>(
+          <SelectItem key={item}>{item}</SelectItem>
         ))}
-      </Select>
+      </Select>;
       </div>
       <div>
         <Input type='number' value={size} aria-label='hi' name="size" placeholder="Fl. Oz." onChange={handleChange}/>
       </div>
       <div>
-        <Input type='number' name="quantity" aria-label="hello" value={quantity} placeholder="Quantity" onChange={handleChange}/>
+        <Input type='number' name="qty" aria-label="hello" value={qty} placeholder="Quantity" onChange={handleChange}/>
       </div>
       <div className="space-x-2">
         <Button onClick={handleSubmit} >Submit</Button>
         <Button onClick={handleReset} >Clear</Button>
       </div>
     </div>
+    <div className={`${errorClass} text-center text-red-300 font-lg`}>{error}</div>
     <div className="py-4 flex justify-between">
-      <ProgressBar/>
+      <ProgressBar caffeineLevel={caffeineState}/>
       <DrinkList inputedDrinks={drinksListDummyData} />
     </div>
   </div>
@@ -115,10 +198,10 @@ export function DrinkList({inputedDrinks}:{inputedDrinks:InputedDrinks}){
       <TableBody>
         {
           inputedDrinks.map((item,index:number)=>(
-            <TableRow key={item.name}>
+            <TableRow key={item.Name}>
               <TableCell>{index+1}</TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.quantity} </TableCell>
+              <TableCell>{item.Name}</TableCell>
+              <TableCell>{item.qty} </TableCell>
               <TableCell>{item.caffeine}</TableCell>
             </TableRow>
           ))
@@ -129,14 +212,15 @@ export function DrinkList({inputedDrinks}:{inputedDrinks:InputedDrinks}){
   )
 }
 
-export function ProgressBar(){
-  const [filled, isFilled] = useState(0);
-  const [isRunning,setIsRunning] = useState(false);
+export function ProgressBar({caffeineLevel}:any){
+
+  const barHeight = {height: caffeineLevel};
+
 
   return(
     <div className="flex">
       <div className="flex items-end border w-[200px] h-[400px] rounded-lg">
-        <div className="w-full h-[40px] bg-black rounded-lg"> </div>
+        <div className={`w-full h-[${caffeineLevel}px] bg-black rounded-lg`} style={barHeight} > </div>
       </div>
       <div className="h-[400px] grid grid-cols-1 content-stretch pl-2 ">
         <span className="relative h-full">400

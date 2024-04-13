@@ -2,12 +2,7 @@ import Image from "next/image";
 import { GiCoffeeCup } from "react-icons/gi";
 import { Dropdowns } from "./dropdowns";
 
-
-const hi = "hi";
-
 export default function Home() {
-
-
 
   return (
     <main className=" flex justify-center bg-slate-500 min-h-[100vh]">
