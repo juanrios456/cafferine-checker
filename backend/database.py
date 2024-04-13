@@ -33,6 +33,7 @@ def get_all_names():
 
 def get_drink_by_name(drink_name):
     document = collection.find_one({"Name":drink_name})
+    print(drink_name)
     if document:
         return document
     else:
@@ -42,11 +43,25 @@ def get_drink_by_name(drink_name):
 
 def calculate_caffeine(drink_name,drink_size, drink_quantity):
         drink = get_drink_by_name(drink_name)
+        print(drink_size)
+        print(drink_quantity)
+        size = float(drink_size)
+        qty = int(drink_quantity)
         if not drink:
             return 0
-        caffeine_content =drink.get("Caffeine_Content", 0)
-        total_caffeine =float(caffeine_content)*drink_size*drink_quantity
+        print(drink)
+        caffeine_content =drink.get("Caffeine_Content")
+        print(caffeine_content)
+        rar = 4 *4*4
+        print(rar)
+        total_caffeine = float(caffeine_content)*size*qty
+        
+        print(f'fdsfdgdfgfdgf{total_caffeine}')
+
         return total_caffeine
+        
+
+     
             
 
 def main():

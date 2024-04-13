@@ -8,7 +8,7 @@ from database import calculate_caffeine,get_all_names
 app = Flask(__name__)
 
 CORS(app)
-app.config['CORS_ORIGIN_WHITELIST'] = ['http://localhost:3000/']
+app.config['CORS_ORIGIN_WHITELIST'] = ['http://localhost:3000']
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # get drink names for dropdown
@@ -27,19 +27,27 @@ def get_names():
 #         return jsonify({"error": "Document not found"}), 404
     
 
-# post user submission
 @app.route('/api/input', methods=['POST'])
 def user_input():
     try:
         data = request.get_json()
-        drink_name = data.get("Name")
+        print(f'rrararr {data}')
+        drink_name = data.get('Name')
         size = data.get('size')
         qty = data.get('qty')
-
+        print(drink_name)
         total_caffeine = calculate_caffeine(drink_name,size,qty)
+        print(total_caffeine)
         return jsonify({
             'total_caffeine':total_caffeine
         })
+    #    print(todrink_nametal_caffeine)
+   #     return jsonify({
+   #         'Name':drink_name,
+   #         'size':size,
+   #         'qty':qty
+   #     })
+
     except Exception as e:
         return jsonify({'message': 'error creating user', 'error': str(e)}), 500
 
