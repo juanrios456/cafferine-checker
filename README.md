@@ -13,7 +13,7 @@ We wanted to create a new way for our fellow hackathoners and college students t
 * React.js
 * Flask
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 
@@ -61,11 +61,6 @@ You will need to be able to download the lastest version of python, next js, rea
    npm run dev
    ```
    
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
