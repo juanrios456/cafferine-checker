@@ -8,7 +8,7 @@ export type InputedDrinks = {
   qty: number;
 }[];
 
-let lifetime_drinks: number[]= [];
+let lifetime_drinks: number[]=[];
 let sum = 0;
 
 let error = "";
@@ -19,27 +19,27 @@ const startingFormFields = {
     size: undefined,
     qty: undefined,
 };
-const startingListState = {
-    Name: undefined,
-    caffeine: undefined,
-    qty: undefined,
-};
+const startingListState = [{
+    drink: '',
+    caffeine: '',
+    quantity: '',
+    hidden: true,
+}];
 const dummy = [{
-    Name: 'Monster',
+    drink: 'Monster',
     caffeine: 29,
-    qty: 2,
+    quantity: 2,
 },
 {
-    Name: 'Red Bull',
+    drink: 'Red Bull',
     caffeine: 29,
-    qty: 2,
+    quantity: 2,
 },
 ];
 
 export function Dropdowns(){
   const [formState, setFormState] = useState(startingFormFields);
   const [listState, setListState] = useState(startingListState);
-
   const [caffeineState, setCaffeineState] = useState(0);
   const [names, setNames] = useState([]);
   const { Name, size, qty } = formState;
@@ -88,8 +88,6 @@ export function Dropdowns(){
       return
     }
 
-    console.log(formState)
-
     try {
       const response = await fetch('http://localhost:8080/api/input', {
         method: 'POST',
@@ -104,18 +102,28 @@ export function Dropdowns(){
       }
 
       const data = await response.json();
-      const { total_caffeine } = data;
-      console.log(data)
+      const { total_caffeine, drinkName, quantity } = data;
 
-      // setCaffeineState(total_caffeine);
-      // TESTING TOTALLSSS????????????????????????????????????//
-    
+//my old stuff      setCaffeineState(total_caffeine);
+
       lifetime_drinks.push(total_caffeine);
-      console.log(`the current lifetime list: ${lifetime_drinks}`);
-      sum = lifetime_drinks.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      console.log(`the current lifetime TOTAL: ${lifetime_drinks}`);
+      sum = lifetime_drinks.reduce((accumulator, currentValue)=> accumulator + currentValue, 0);
       console.log(`the current lifetime TOTAL: ${sum}`);
-      setCaffeineState(sum);
-  
+      setCaffeineState(sum)
+
+      setListState([
+        ...listState,
+        {
+          drink: drinkName,
+          caffeine: total_caffeine,
+          quantity: quantity,
+          hidden: false
+        }
+      ])
+    console.log(listState)
+    
+      console.log(listState + 'whore')
     } catch (error) {
       console.error('Error processing user input:', error);
     }
@@ -133,9 +141,8 @@ export function Dropdowns(){
     lifetime_drinks = []
     sum = 0
     setCaffeineState(0);
+    setListState(startingListState)
   }
-
-
 
   return(
   <div>
@@ -161,7 +168,7 @@ export function Dropdowns(){
     <div className={`${errorClass} text-center text-red-300 font-lg`}>{error}</div>
     <div className="py-4 flex justify-between">
       <ProgressBar caffeineLevel={caffeineState}/>
-      <DrinkList inputedDrinks={dummy} />
+      <DrinkList inputedDrinks={listState} />
     </div>
   </div>
   )
@@ -169,6 +176,7 @@ export function Dropdowns(){
 
 
 export function DrinkList({inputedDrinks}:any){
+
   return(
     <div>
     <Table aria-label="Example static collection table">
@@ -181,10 +189,10 @@ export function DrinkList({inputedDrinks}:any){
       <TableBody>
         {
           inputedDrinks.map((item:any,index:number)=>(
-            <TableRow key={item.Name}>
-              <TableCell>{index+1}</TableCell>
-              <TableCell>{item.Name}</TableCell>
-              <TableCell>{item.qty} </TableCell>
+            <TableRow  className="first:hidden" key={item.drink}>
+              <TableCell>{index}</TableCell>
+              <TableCell>{item.drink}</TableCell>
+              <TableCell>{item.quantity} </TableCell>
               <TableCell>{item.caffeine}</TableCell>
             </TableRow>
           ))
