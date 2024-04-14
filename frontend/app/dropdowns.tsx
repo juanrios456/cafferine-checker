@@ -2,34 +2,12 @@
 import { Button, Input, Link, Select, SelectItem,Table, TableHeader,TableColumn,TableBody,TableRow,TableCell } from "@nextui-org/react"
 import { useEffect, useState } from "react";
 
-const jsonStuff = [{"name": "Mtn Dew Energy", "Caffeine Content (mg)": "180", "Size (oz)": "16"},
-{"name":"Red Bull", "Caffeine Content (mg)": "111", "Size (oz)": "12"},
-{"name":"Monster", "Caffeine Content (mg)":"86", "Size (oz)": "17"},
-{"name": "V8 Energy", "Caffeine Content (mg)": "80", "Size (oz)": "8"},
-{"name": "Celsius", "Caffeine Content (mg)": "200", "Size (oz)": "12"},
-{"name": "Charged Lemonade", "Caffeine Content (mg)": "390", "Size (oz)": "30"},
-{"name": "Green Tea", "Caffeine Content (mg)": "40", "Size (oz)": "8"},
-{"name": "Bang", "Caffeine Content (mg)": "300", "Size (oz)": "16"},
-{"name": "Sugar Free Red Bull", "Caffeine Content (mg)": "80", "Size (oz)": "8.4"},
-{"name": "Dr. Pepper", "Caffeine Content (mg)": "42.6", "Size (oz)": "12"},
-{"name": "Ghost Energy", "Caffeine Content (mg)": "200", "Size (oz)": "16"},
-{"name": "Water", "Caffeine Content (mg)": "0", "Size (oz)": "8"},
-{"name": "Bubbl'r Twisted Elixir", "Caffeine Content (mg)": "69", "Size (oz)": "12"},
-{"name": "Gatorade", "Caffeine Content (mg)": "0", "Size (oz)": "12"},
-{"name": "Coffee", "Caffeine Content (mg)": "95", "Size (oz)": "8"}]
-
-
-
-
-export type dummyArray = {
-  name: string;
-}[];
-
 export type InputedDrinks = {
   Name: string;
   caffeine: number;
   qty: number;
 }[];
+
 
 let error = "";
 let errorClass = "";
@@ -38,36 +16,27 @@ const startingFormFields = {
     Name: undefined,
     size: undefined,
     qty: undefined,
-  };
-
-const dummyArray = [
-  {
-    name: 'Monster Energy',
-    caffeine: 11.25,
-    fluidOunce: 16,
-  },
-  {
-    name: 'Bang',
-    caffeine: 5.25,
-    fluidOunce: 8,
-  }
-];
-
-const drinksListDummyData:InputedDrinks = [
-  {
+};
+const startingListState = {
+    Name: undefined,
+    caffeine: undefined,
+    qty: undefined,
+};
+const dummy = [{
     Name: 'Monster',
-    caffeine: 8,
-    qty: 4,
-  },
-  {
-    Name: 'Bang',
-    caffeine: 5.25,
+    caffeine: 29,
     qty: 2,
-  }
+},
+{
+    Name: 'Red Bull',
+    caffeine: 29,
+    qty: 2,
+},
 ];
 
 export function Dropdowns(){
   const [formState, setFormState] = useState(startingFormFields);
+  const [listState, setListState] = useState(startingListState);
   const [caffeineState, setCaffeineState] = useState();
   const [names, setNames] = useState([]);
   const { Name, size, qty } = formState;
@@ -158,17 +127,17 @@ export function Dropdowns(){
   <div>
     <div className="flex flex-row flex-wrap space-x-2">
       <div className="min-w-[300px]">
-      <Select placeholder="Select Drink" name="Name" aria-label="hello" value={Name} onChange={handleChange}>
+      <Select placeholder="Select Drink" className="bg-white text-black rounded-lg" name="Name" aria-label="hello" value={Name} onChange={handleChange}>
         {names.map((item)=>(
-          <SelectItem key={item}>{item}</SelectItem>
+          <SelectItem className="bg-white text-black rounded-lg" key={item}>{item}</SelectItem>
         ))}
-      </Select>;
+      </Select>
       </div>
       <div>
-        <Input type='number' value={size} aria-label='hi' name="size" placeholder="Fl. Oz." onChange={handleChange}/>
+        <Input type='number' value={size} className="bg-white text-black rounded-lg" aria-label='hi' name="size" placeholder="Fl. Oz." onChange={handleChange}/>
       </div>
       <div>
-        <Input type='number' name="qty" aria-label="hello" value={qty} placeholder="Quantity" onChange={handleChange}/>
+        <Input type='number' name="qty" className="bg-white text-black rounded-lg" aria-label="hello" value={qty} placeholder="Quantity" onChange={handleChange}/>
       </div>
       <div className="space-x-2">
         <Button onClick={handleSubmit} >Submit</Button>
@@ -178,14 +147,14 @@ export function Dropdowns(){
     <div className={`${errorClass} text-center text-red-300 font-lg`}>{error}</div>
     <div className="py-4 flex justify-between">
       <ProgressBar caffeineLevel={caffeineState}/>
-      <DrinkList inputedDrinks={drinksListDummyData} />
+      <DrinkList inputedDrinks={dummy} />
     </div>
   </div>
   )
 }
 
 
-export function DrinkList({inputedDrinks}:{inputedDrinks:InputedDrinks}){
+export function DrinkList({inputedDrinks}:any){
   return(
     <div>
     <Table aria-label="Example static collection table">
@@ -197,7 +166,7 @@ export function DrinkList({inputedDrinks}:{inputedDrinks:InputedDrinks}){
       </TableHeader>
       <TableBody>
         {
-          inputedDrinks.map((item,index:number)=>(
+          inputedDrinks.map((item:any,index:number)=>(
             <TableRow key={item.Name}>
               <TableCell>{index+1}</TableCell>
               <TableCell>{item.Name}</TableCell>
