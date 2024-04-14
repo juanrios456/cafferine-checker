@@ -141,20 +141,23 @@ export function Dropdowns(){
   return(
   <div>
     <div className="flex flex-row flex-wrap space-x-2">
-      <div className="min-w-[300px]">
+      <div className="min-w-[300px] flex flex-col" >
+        <p>Choose a Drink</p>
       <Select placeholder="Select Drink" className="bg-white text-black rounded-lg" name="Name" aria-label="hello" value={Name} onChange={handleChange}>
         {names.map((item)=>(
           <SelectItem className="bg-white text-black rounded-lg" key={item}>{item}</SelectItem>
         ))}
       </Select>
       </div>
-      <div>
-        <Input type='number' value={size} className="bg-white text-black rounded-lg" aria-label='hi' name="size" placeholder="Fl. Oz." onChange={handleChange}/>
+      <div className="flex flex-col">
+        <p>Enter Fl.Oz.</p>
+        <Input type='number' value={size} className="bg-white text-black rounded-lg" aria-label='hi' name="size" placeholder="Oz." onChange={handleChange}/>
       </div>
-      <div>
-        <Input type='number' name="qty" className="bg-white text-black rounded-lg" aria-label="hello" value={qty} placeholder="Quantity" onChange={handleChange}/>
+      <div className="flex flex-col">
+        <p>Enter Quantity</p>
+        <Input type='number' name="qty" className="bg-white text-black rounded-lg" aria-label="hello" value={qty} placeholder="Drink Amount" onChange={handleChange}/>
       </div>
-      <div className="space-x-2">
+      <div className="space-x-2 flex items-end">
         <Button onClick={handleSubmit} >Submit</Button>
         <Button onClick={handleReset} >Clear</Button>
       </div>
