@@ -9,9 +9,9 @@ We wanted to create a new way for our fellow hackathoners and college students t
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
+* [![Next][Next.js]]
 * [![React][React.js]][React-url]
-* [![Flask][Flask.com][Flask-url]
+* [![Flask]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
