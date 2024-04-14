@@ -43,7 +43,7 @@ You will need to be able to download the lastest version of python, next js, rea
 4. Install python dependecies in the backend folder
    
    ```sh
-   python install -r requirements.txt
+   pip install -r requirements.txt
    ```
 5. create a .env file for your connection variables
    ```sh
