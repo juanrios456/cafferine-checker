@@ -28,7 +28,9 @@ def user_input():
         #return total caffeine result to frontend in json format
         total_caffeine = calculate_caffeine(drink_name,size,qty)
         return jsonify({
-            'total_caffeine':total_caffeine
+            'total_caffeine':total_caffeine,
+            'drinkName':drink_name,
+            "quantity":qty,
         })
     except Exception as e:
         return jsonify({'message': 'error creating user', 'error': str(e)}), 500
