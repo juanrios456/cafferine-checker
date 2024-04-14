@@ -4,7 +4,6 @@ Keeping college students safe since 2024
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 We wanted to create a new way for our fellow hackathoners and college students to become more mindful about their caffeine intake. With the caffeine checker we hope to provide people with more insights about their health and well-being.
 
 
@@ -12,7 +11,7 @@ We wanted to create a new way for our fellow hackathoners and college students t
 
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
-
+* [![Flask][Flask.com][Flask-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
