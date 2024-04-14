@@ -14,7 +14,7 @@ let sum = 0;
 let error = "";
 let errorClass = "";
 
-const startingFormFields = {
+const startingFormFields:any = {
     Name: undefined,
     size: undefined,
     qty: undefined,
@@ -130,14 +130,18 @@ export function Dropdowns(){
   };
 
   const handleChange = ({target}:any)=>{
-    setFormState((prev) =>({
+    setFormState((prev:any) =>({
       ...prev,
       [target.name]: target.value
     }))
   }
 
   const handleReset = ()=>{
-    setFormState(startingFormFields);
+    setFormState({
+      Name: '',
+      drink: '',
+      qty: ''
+    });
     lifetime_drinks = []
     sum = 0
     setCaffeineState(0);
@@ -210,7 +214,7 @@ export function ProgressBar({caffeineLevel}:any){
 
   return(
     <div className="flex">
-      <div className="flex items-end border w-[200px] h-[400px] rounded-lg">
+      <div className="flex items-end border w-[200px] h-[400px] rounded-lg overflow-visible">
         <div className={`w-full h-[${caffeineLevel}px] bg-black rounded-lg`} style={barHeight} > </div>
       </div>
       <div className="h-[400px] grid grid-cols-1 content-stretch pl-2 ">
@@ -239,6 +243,7 @@ export function ProgressBar({caffeineLevel}:any){
           <span className='absolute bottom-[25px] left-[-8px] w-[10px] border'></span>
         </span>
       </div>
+      <div className="flex items-end pl-4 text-7xl">{caffeineLevel} / 400</div>
     </div>
   )
 }
