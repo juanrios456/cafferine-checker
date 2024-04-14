@@ -8,6 +8,8 @@ export type InputedDrinks = {
   qty: number;
 }[];
 
+let lifetime_drinks: number[]= [];
+let sum = 0;
 
 let error = "";
 let errorClass = "";
@@ -37,7 +39,8 @@ const dummy = [{
 export function Dropdowns(){
   const [formState, setFormState] = useState(startingFormFields);
   const [listState, setListState] = useState(startingListState);
-  const [caffeineState, setCaffeineState] = useState();
+
+  const [caffeineState, setCaffeineState] = useState(0);
   const [names, setNames] = useState([]);
   const { Name, size, qty } = formState;
 
@@ -104,7 +107,15 @@ export function Dropdowns(){
       const { total_caffeine } = data;
       console.log(data)
 
-      setCaffeineState(total_caffeine);
+      // setCaffeineState(total_caffeine);
+      // TESTING TOTALLSSS????????????????????????????????????//
+    
+      lifetime_drinks.push(total_caffeine);
+      console.log(`the current lifetime list: ${lifetime_drinks}`);
+      sum = lifetime_drinks.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      console.log(`the current lifetime TOTAL: ${sum}`);
+      setCaffeineState(sum);
+  
     } catch (error) {
       console.error('Error processing user input:', error);
     }
@@ -119,6 +130,9 @@ export function Dropdowns(){
 
   const handleReset = ()=>{
     setFormState(startingFormFields);
+    lifetime_drinks = []
+    sum = 0
+    setCaffeineState(0);
   }
 
 
