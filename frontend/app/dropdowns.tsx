@@ -7,9 +7,10 @@ export type InputedDrinks = {
   caffeine: number;
   qty: number;
 }[];
-
+// Array for tracking totals of each input instance request
 let lifetime_drinks: number[]=[];
 let sum = 0;
+let rounded_sum = 0
 
 let error = "";
 let errorClass = "";
@@ -25,17 +26,6 @@ const startingListState = [{
     quantity: '',
     hidden: true,
 }];
-const dummy = [{
-    drink: 'Monster',
-    caffeine: 29,
-    quantity: 2,
-},
-{
-    drink: 'Red Bull',
-    caffeine: 29,
-    quantity: 2,
-},
-];
 
 export function Dropdowns(){
   const [formState, setFormState] = useState(startingFormFields);
@@ -43,7 +33,7 @@ export function Dropdowns(){
   const [caffeineState, setCaffeineState] = useState(0);
   const [names, setNames] = useState([]);
   const { Name, size, qty } = formState;
-
+  // First Get request to populate dropdown field based on database
     useEffect(() => {
     // Fetch names from Flask server when component mounts
     fetch('http://localhost:8080/api/names') // Replace with your Flask server address
@@ -61,7 +51,7 @@ export function Dropdowns(){
         console.error('There was a problem fetching the names:', error);
       });
   }, []); // Empty dependency array ensures this effect runs only once on mount
-
+// Error handling for invalid submissions
   const handleSubmit = async (e:any)=>{
 
     e.preventDefault()
@@ -87,7 +77,7 @@ export function Dropdowns(){
       errorClass = "text-red-600 font-lg"
       return
     }
-
+    // Post request when submit button is hit
     try {
       const response = await fetch('http://localhost:8080/api/input', {
         method: 'POST',
@@ -100,17 +90,17 @@ export function Dropdowns(){
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
+      // returns data from backend
       const data = await response.json();
       const { total_caffeine, drinkName, quantity } = data;
-
-//my old stuff      setCaffeineState(total_caffeine);
-
+      // pushes total caffeine result for instance and pushes to array
       lifetime_drinks.push(total_caffeine);
       console.log(`the current lifetime TOTAL: ${lifetime_drinks}`);
+      // calculates current sum of array and sets state for progress bar and table view
       sum = lifetime_drinks.reduce((accumulator, currentValue)=> accumulator + currentValue, 0);
+      let rounded_sum = parseFloat(sum.toFixed(2));
       console.log(`the current lifetime TOTAL: ${sum}`);
-      setCaffeineState(sum)
+      setCaffeineState(rounded_sum)
 
       setListState([
         ...listState,
@@ -123,7 +113,6 @@ export function Dropdowns(){
       ])
     console.log(listState)
     
-      console.log(listState + 'whore')
     } catch (error) {
       console.error('Error processing user input:', error);
     }
@@ -135,7 +124,7 @@ export function Dropdowns(){
       [target.name]: target.value
     }))
   }
-
+// handles reset button logic 
   const handleReset = ()=>{
     setFormState({
       Name: '',
@@ -144,10 +133,11 @@ export function Dropdowns(){
     });
     lifetime_drinks = []
     sum = 0
+    rounded_sum=0
     setCaffeineState(0);
     setListState(startingListState)
   }
-
+// Return statement for user input fields (drop down,size input,qty input,buttons)
   return(
   <div>
     <div className="flex flex-row flex-wrap space-x-2">
@@ -178,7 +168,7 @@ export function Dropdowns(){
   )
 }
 
-
+// Table List view of total caffeinated drinks consumed
 export function DrinkList({inputedDrinks}:any){
 
   return(
@@ -192,6 +182,7 @@ export function DrinkList({inputedDrinks}:any){
       </TableHeader>
       <TableBody>
         {
+          // Parses through user input and backend result to populate table
           inputedDrinks.map((item:any,index:number)=>(
             <TableRow  className="first:hidden" key={item.drink}>
               <TableCell>{index}</TableCell>
@@ -206,9 +197,9 @@ export function DrinkList({inputedDrinks}:any){
     </div>
   )
 }
-
+// Funtionality and html components for progress bar
 export function ProgressBar({caffeineLevel}:any){
-
+// sets the bar-height equal to the current sum of total caffeine consumed
   const barHeight = {height: caffeineLevel};
 
 
