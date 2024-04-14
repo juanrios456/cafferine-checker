@@ -46,7 +46,9 @@ def calculate_caffeine(drink_name,drink_size, drink_quantity):
         if not drink:
             return 0
         caffeine_content =drink.get("Caffeine_Content")
-        total_caffeine = float(caffeine_content)*size*qty
+        preround = float(caffeine_content)*size*qty
+        total_caffeine = round(preround,2)
+        
         return total_caffeine
 
 
