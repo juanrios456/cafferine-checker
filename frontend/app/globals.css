@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.rotateBg{
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(#e9b060, #f1b1b1, #23a6d5, #a4e4a1);
+  background-size: 400% 400%; 
+  animation: gradient 15s ease infinite; 
+  color:white;
+}
+
+@keyframes gradient {
+0% {
+    background-position: 0% 50%;
+}
+
+50% {
+    background-position: 100% 50%;
+}
+
+100% {
+    background-position: 0% 50%;
+}
+}

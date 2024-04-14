@@ -56,7 +56,7 @@ export function Dropdowns(){
 
     e.preventDefault()
 
-    if(Name === undefined){
+    if(Name === undefined ){
       error = "Please Fill Out all Of the Fields";
       errorClass = "text-red-600 font-lg"
       return
@@ -68,7 +68,7 @@ export function Dropdowns(){
       error = "Please Input a number greater than 0";
       errorClass = "text-red-600 font-lg"
       return
-    }if (qty === undefined) {
+    }if (qty === undefined ) {
       error = "Please Fill Out all Of the Fields";
       errorClass = "text-red-600 font-lg"
       return
@@ -112,6 +112,7 @@ export function Dropdowns(){
         }
       ])
     console.log(listState)
+
     
     } catch (error) {
       console.error('Error processing user input:', error);
@@ -167,6 +168,12 @@ export function Dropdowns(){
       <ProgressBar caffeineLevel={caffeineState}/>
       <DrinkList inputedDrinks={listState} />
     </div>
+      <div className="flex items-end pl-4 text-7xl">
+        <p>{caffeineState} / 400</p><span className="text-lg">(reccomended daily intake)</span>
+      </div>
+      <div className="flex items-end pl-4 text-7xl">
+        <p>{caffeineState} / 800</p><span className="text-lg">(reccomended Hackathon intake)</span>
+      </div>
   </div>
   )
 }
@@ -208,8 +215,8 @@ export function ProgressBar({caffeineLevel}:any){
 
   return(
     <div className="flex">
-      <div className="flex items-end border w-[200px] h-[400px] rounded-lg overflow-visible">
-        <div className={`w-full h-[${caffeineLevel}px] rounded-lg bg-gradient-to-b from-yellow-600 via-amber-400 to-red-400`} style={barHeight} > </div>
+      <div className="flex items-end border w-[200px] h-[400px] rounded-lg overflow-x-none">
+        <div className={`w-full h-[${caffeineLevel}px] transition-all duration-150 rounded-lg bg-gradient-to-b from-yellow-600 via-amber-400 to-red-400`} style={barHeight} > </div>
       </div>
       <div className="h-[400px] grid grid-cols-1 content-stretch pl-2 ">
         <span className="relative h-full">400
@@ -237,7 +244,6 @@ export function ProgressBar({caffeineLevel}:any){
           <span className='absolute bottom-[25px] left-[-8px] w-[10px] border'></span>
         </span>
       </div>
-      <div className="flex items-end pl-4 text-7xl">{caffeineLevel} / 400</div>
     </div>
   )
 }
