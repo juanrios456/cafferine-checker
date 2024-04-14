@@ -1,8 +1,6 @@
-from flask import Flask, jsonify, render_template, url_for,request,redirect
+from flask import Flask, jsonify,request
 from flask_cors import CORS
 from database import calculate_caffeine,get_all_names
-
-
 
 #app instance
 app = Flask(__name__)
@@ -17,37 +15,21 @@ def get_names():
     names = get_all_names()  # Retrieve all names from the database
     return jsonify(names), 200  # Return the names as JSON
 
-# # get document query result
-# @app.route("/api/document", methods=['GET'])
-# def get_document():
-#     document =test_please()
-#     if document:
-#         return jsonify(document), 200
-#     else:
-#         return jsonify({"error": "Document not found"}), 404
-    
 
 @app.route('/api/input', methods=['POST'])
 def user_input():
     try:
+        #receives front end user input 
         data = request.get_json()
-        print(f'rrararr {data}')
+        # assign variable for different key values
         drink_name = data.get('Name')
         size = data.get('size')
         qty = data.get('qty')
-        print(drink_name)
+        #return total caffeine result to frontend in json format
         total_caffeine = calculate_caffeine(drink_name,size,qty)
-        print(total_caffeine)
         return jsonify({
             'total_caffeine':total_caffeine
         })
-    #    print(todrink_nametal_caffeine)
-   #     return jsonify({
-   #         'Name':drink_name,
-   #         'size':size,
-   #         'qty':qty
-   #     })
-
     except Exception as e:
         return jsonify({'message': 'error creating user', 'error': str(e)}), 500
 

@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, render_template, url_for,request,redirect
-from flask_cors import CORS
+
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv, find_dotenv
@@ -30,42 +29,29 @@ def get_all_names():
     for document in cursor:
         names.append(document["Name"])
     return names
-
+# query for document containing user inputted caffeinated drink
 def get_drink_by_name(drink_name):
     document = collection.find_one({"Name":drink_name})
-    print(drink_name)
     if document:
         return document
     else:
         print("No documents found in the collection.")
 
 
-
+# method to calculate total caffeine content
 def calculate_caffeine(drink_name,drink_size, drink_quantity):
         drink = get_drink_by_name(drink_name)
-        print(drink_size)
-        print(drink_quantity)
         size = float(drink_size)
         qty = int(drink_quantity)
         if not drink:
             return 0
-        print(drink)
         caffeine_content =drink.get("Caffeine_Content")
-        print(caffeine_content)
-        rar = 4 *4*4
-        print(rar)
         total_caffeine = float(caffeine_content)*size*qty
-        
-        print(f'fdsfdgdfgfdgf{total_caffeine}')
-
         return total_caffeine
-        
 
-     
-            
 
+# example method testing functionality
 def main():
-
     total_caffeine=calculate_caffeine("Monster", 17, 3)
     return total_caffeine
 
