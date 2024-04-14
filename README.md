@@ -34,24 +34,21 @@ You will need to be able to download the lastest version of python, next js, rea
    npm install
    ```
 3. Create a and activate python enviornment in the backend folder
-  * venv
-  ```sh
-  python -m venv venv
-  venv\Scripts\activate
-  ```
-  ```sh
-  venv\Scripts\activate
-  ```
+   ```sh
+   python -m venv venv
+   ```
+   ```sh
+   venv\Scripts\activate
+   ```
 4. Install python dependecies in the backend folder
-  
-  ```sh
-  python install -r requirements.txt
-  ```
+   
+   ```sh
+   python install -r requirements.txt
+   ```
 5. create a .env file for your connection variables
    ```sh
    touch .env
    ```
-
 6. Run the backend flask server
    ```sh
    python server.py
