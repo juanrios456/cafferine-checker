@@ -151,7 +151,7 @@ export function Dropdowns(){
       </div>
       <div className="flex flex-col">
         <p>Enter Fl.Oz.</p>
-        <Input type='number' value={size} className="bg-white text-black rounded-lg" aria-label='hi' name="size" placeholder="Oz." onChange={handleChange}/>
+        <Input type='number' value={size} className="bg-white text-black rounded-lg" aria-label='hi' name="size" placeholder="Fl Oz." onChange={handleChange}/>
       </div>
       <div className="flex flex-col">
         <p>Enter Quantity</p>

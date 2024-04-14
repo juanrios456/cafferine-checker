@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import { Providers } from "./providers";
 import './globals.css'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Ubuntu({ subsets: ["cyrillic"], weight: '700' });
 
 export const metadata: Metadata = {
   title: "Create Next App",
