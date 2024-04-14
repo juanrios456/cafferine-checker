@@ -209,7 +209,7 @@ export function ProgressBar({caffeineLevel}:any){
   return(
     <div className="flex">
       <div className="flex items-end border w-[200px] h-[400px] rounded-lg overflow-visible">
-        <div className={`w-full h-[${caffeineLevel}px] bg-black rounded-lg`} style={barHeight} > </div>
+        <div className={`w-full h-[${caffeineLevel}px] rounded-lg bg-gradient-to-b from-yellow-600 via-amber-400 to-red-400`} style={barHeight} > </div>
       </div>
       <div className="h-[400px] grid grid-cols-1 content-stretch pl-2 ">
         <span className="relative h-full">400
